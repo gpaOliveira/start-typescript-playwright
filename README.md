@@ -1,4 +1,4 @@
-# Web Testing with Playwright and TypeScript
+# Start web Testing with Playwright and TypeScript
 
 This repository provides a starter template for web testing using **Playwright** and **TypeScript**.
 
