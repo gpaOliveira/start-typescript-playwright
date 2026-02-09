@@ -1,0 +1,6 @@
+services:
+  playwright:
+    build: .
+    volumes:
+      - ./snapshots:/app/snapshots
+      - ./playwright-report:/app/playwright-report
