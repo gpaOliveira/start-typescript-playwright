@@ -1,21 +1,17 @@
-FROM mcr.microsoft.com/playwright:v1.57.0-noble as builder
+FROM mcr.microsoft.com/playwright:v1.57.0-noble AS builder
 
 ENV CI=true
 
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-RUN mkdir -p /app && chown -R appuser:appuser /app
-
 WORKDIR /app
 
-# Copy as root, then change ownership
-COPY --chown=appuser:appuser . ./
+# Copy package files first for better layer caching
+COPY package*.json ./
 
-# Switch to non-root user
-USER appuser
+# Install ALL dependencies
+RUN npm ci
 
-RUN npm install
-
-COPY --chown=appuser:appuser . .
+# Copy the rest of the application files
+COPY . /app
 
 ######## Stage 2: Final build stage just to execute tests ########
 FROM builder
